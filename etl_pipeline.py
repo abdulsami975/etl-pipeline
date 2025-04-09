@@ -56,6 +56,9 @@ def get_usd_to_inr():
         return requests.get(url).json()['rates']['INR']
     except:
         return None
+# chanar.pg4201474@cloud.neduet.edu.pk
+# ssh-keygen -t ed25519 -C "chanar.pg4201474@cloud.neduet.edu.pk"
+# ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILxJoKf4yi0pt6tWm2lFyUEIaicpfgVk6NkMEs3ytrtL chanar.pg4201474@cloud.neduet.edu.pk
 
 # ETL Job
 def etl_job():
