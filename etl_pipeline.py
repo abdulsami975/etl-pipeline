@@ -123,7 +123,10 @@ def etl_job():
 
     df_final = pd.DataFrame(enriched_data)
     df_final.to_csv("output/final_cleaned_data.csv", index=False)
+    # After creating final cleaned data
+    print("✅ Final cleaned data generated at output/final_cleaned_data.csv",df_final)
 
+    
     # Store in MongoDB
     insert_to_mongo(df_final.to_dict("records"))
     print("✅ ETL complete & data stored!")
