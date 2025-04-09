@@ -4,6 +4,7 @@ import yfinance as yf
 import requests
 import json
 from load_to_db import insert_to_mongo
+from scipy import stats
 
 # Load secrets
 with open("config/config.json") as f:
@@ -56,14 +57,41 @@ def get_usd_to_inr():
         return requests.get(url).json()['rates']['INR']
     except:
         return None
-# chanar.pg4201474@cloud.neduet.edu.pk
-# ssh-keygen -t ed25519 -C "chanar.pg4201474@cloud.neduet.edu.pk"
-# ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILxJoKf4yi0pt6tWm2lFyUEIaicpfgVk6NkMEs3ytrtL chanar.pg4201474@cloud.neduet.edu.pk
+
+# Advanced Data Cleaning
+def advanced_data_cleaning(df):
+    # 1. Handle Missing Data (Fill or Drop)
+    df.fillna({'Open': 0, 'Close': 0, 'Volume': 0}, inplace=True)  # Fill specific columns with 0
+    df.dropna(subset=['Symbol', 'Date'], inplace=True)  # Drop rows where 'Symbol' or 'Date' is missing
+
+    # 2. Remove Duplicates
+    df.drop_duplicates(inplace=True)
+
+    # 3. Convert 'Date' column to datetime and handle invalid formats
+    df['Date'] = pd.to_datetime(df['Date'], errors='coerce')  # 'coerce' will set invalid parsing to NaT
+    df.dropna(subset=['Date'], inplace=True)  # Drop rows with invalid dates
+
+    # 4. Handle Outliers (using Z-score for numeric columns)
+    z_scores = stats.zscore(df[['Open', 'Close', 'Volume']].apply(pd.to_numeric, errors='coerce'))
+    abs_z_scores = abs(z_scores)
+    df = df[(abs_z_scores < 3).all(axis=1)]  # Keep rows with Z-score less than 3 (outliers)
+
+    # 5. Convert Columns to Correct Data Types
+    df['Volume'] = df['Volume'].astype(int)
+    df['Open'] = df['Open'].astype(float)
+    df['Close'] = df['Close'].astype(float)
+
+    return df
 
 # ETL Job
 def etl_job():
     print("🚀 ETL Job running...")
-    df_sample = df_csv.head(100)
+
+    # Perform data cleaning
+    df_cleaned = advanced_data_cleaning(df_csv)
+
+    # Sample 100 rows after cleaning for the job
+    df_sample = df_cleaned.head(100)
     enriched_data = []
     usd_to_inr = get_usd_to_inr()
 

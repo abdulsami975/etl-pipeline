@@ -30,6 +30,10 @@ jobs:
         run: |
           python etl_pipeline.py
 
+      - name: Verify final cleaned data exists
+        run: |
+          if [ ! -f output/final_cleaned_data.csv ]; then echo "Error: final_cleaned_data.csv not found."; exit 1; fi
+
       - name: Upload final CSV to GitHub Actions artifacts
         uses: actions/upload-artifact@v2
         with:
