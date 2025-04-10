@@ -30,11 +30,12 @@ jobs:
         run: |
           python etl_pipeline.py
 
-      - name: List output directory contents
+      - name: List contents of output folder (for debugging)
         run: |
           ls -l output
 
       - name: Upload final CSV to GitHub Actions artifacts
+        if: success()  # Only upload if the previous steps were successful
         uses: actions/upload-artifact@v4
         with:
           name: final_cleaned_data
