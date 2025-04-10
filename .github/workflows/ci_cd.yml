@@ -31,7 +31,7 @@ jobs:
           python etl_pipeline.py
 
       - name: Upload final CSV to GitHub Actions artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: final_cleaned_data
           path: output/final_cleaned_data.csv
