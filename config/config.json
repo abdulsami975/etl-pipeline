@@ -1,6 +1,5 @@
 {
-    "NEWS_API_KEY": "23b1888348ed43ef8886a98edb9b29bf",
-    "FINNHUB_API_KEY": "FINNHUB_API_KEY = 'cvofa09r01qppf5coiagcvofa09r01qppf5coib0'",
-    "MONGO_URI": "mongodb+srv://chanarpg4201474:!Ek4MEA#8vpHd45@cluster0.nrqxs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-  }
-  
+  "NEWS_API_KEY": "your_news_api_key_here",
+  "FINNHUB_API_KEY": "your_finnhub_api_key_here",
+  "MONGO_URI": "mongodb://your_username:your_password@localhost:27017/your_db_name"
+}
