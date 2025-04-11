@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: '3.11'  # ✅ Updated from 3.8 to 3.11
 
       - name: Install dependencies
         run: |
@@ -35,7 +35,7 @@ jobs:
           ls -l output
 
       - name: Upload final CSV to GitHub Actions artifacts
-        if: success()  # Only upload if the previous steps were successful
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: final_cleaned_data
